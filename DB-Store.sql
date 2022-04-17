@@ -11,7 +11,7 @@ CREATE TABLE users(
    email VARCHAR(20) UNIQUE,
    gender VARCHAR(1) CHECK(gender='M' or gender='F'),
    date_of_birth VARCHAR(15),
-   created_at DATETIME,
+   created_at DATETIME default current_timestamp on update current_timestamp,
    country_code INT,
    FOREIGN KEY (id) REFERENCES countries(id)
 );
@@ -20,12 +20,12 @@ CREATE TABLE orders(
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id),
 	status VARCHAR(6) CHECK(status='start' or status='finish'),
-    ceated_at DATETIME
+    ceated_at DATETIME default current_timestamp on update current_timestamp
 );
 CREATE TABLE order_products(
     order_id INT,
     product_id INT,
-	quantity INT DEFAULT 0,
+    quantity INT DEFAULT 0,
     PRIMARY KEY (order_id, product_id),
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
@@ -35,7 +35,7 @@ CREATE TABLE products(
     name VARCHAR(10) NOT NULL,
     price INTEGER DEFAULT 0,
     status VARCHAR(10) CHECK(status='valid' or status='expired'),
-    created_at DATETIME
+    created_at DATETIME default current_timestamp on update current_timestamp
 );
 
 # DML - Insert
